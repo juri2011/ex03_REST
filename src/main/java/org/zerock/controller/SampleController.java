@@ -4,6 +4,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.zerock.domain.SampleVO;
 
 import lombok.extern.log4j.Log4j;
 
@@ -21,5 +22,14 @@ public class SampleController {
 		log.info("MIME TYPE: " + MediaType.TEXT_PLAIN_VALUE);
 		
 		return "안녕하세요";
+	}
+	
+	//APPLICATION_JSON_UTF8_VALUE : 스프링 5.2부터 Deprecated
+	//xml과 json 방식의 데이터 생성
+	@GetMapping(value="/getSample",
+				produces= {MediaType.APPLICATION_JSON_VALUE,
+						   MediaType.APPLICATION_XML_VALUE })
+	public SampleVO getSample() {
+		return new SampleVO(112, "스타","로드");
 	}
 }
