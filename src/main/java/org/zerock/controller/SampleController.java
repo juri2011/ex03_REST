@@ -11,9 +11,12 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.zerock.domain.SampleVO;
+import org.zerock.domain.Ticket;
 
 import lombok.extern.log4j.Log4j;
 
@@ -82,5 +85,14 @@ public class SampleController {
 				@PathVariable("cat") String cat,
 				@PathVariable("pid") Integer pid) {
 		return new String[] {"category: " + cat, "productid: " + pid};
+	}
+	
+	//@RequestBody가 요청(request)한 내용(body)를 처리하기때문에 @PostMapping 적용
+	//JSON 타입을 Ticket 객체로 변환
+	@PostMapping("/ticket")
+	public Ticket convert(@RequestBody Ticket ticket) {
+		log.info("convert .................... ticket" + ticket);
+		
+		return ticket;
 	}
 }
