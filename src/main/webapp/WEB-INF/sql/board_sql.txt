@@ -1,0 +1,46 @@
+-- foreign key로 연결된 데이터까지 삭제하는 방법
+drop table tbl_board CASCADE CONSTRAINTS;
+
+-- sequence 삭제
+drop sequence seq_board;
+-- sequence 생성
+create sequence seq_board;
+
+-- 테이블 생성
+create table tbl_board(
+    bno number(10,0),
+    title varchar2(200) not null,
+    content varchar2(2000) not null,
+    writer varchar2(50) not null,
+    regdate date default sysdate,
+    updatedate date default sysdate
+);
+-- 테이블 구조 확인
+desc tbl_board;
+
+-- primary key지정
+alter table tbl_board add constraint pk_board
+primary key (bno);
+
+-- 더미 데이터 삽입
+insert into tbl_board(bno, title, content, writer)
+values(seq_board.nextval, '테스트 제목', '테스트 내용', 'user00');
+
+-- oracle 다중 insert 문
+insert all
+into tbl_board(bno, title, content, writer) values(seq_board.nextval, '테스트 제목2', '테스트 내용2', 'user02')
+into tbl_board(bno, title, content, writer) values(seq_board.nextval, '테스트 제목3', '테스트 내용3', 'user03')
+into tbl_board(bno, title, content, writer) values(seq_board.nextval, '테스트 제목4', '테스트 내용4', 'user04')
+into tbl_board(bno, title, content, writer) values(seq_board.nextval, '테스트 제목5', '테스트 내용5', 'user05')
+into tbl_board(bno, title, content, writer) values(seq_board.nextval, '테스트 제목6', '테스트 내용6', 'user06')
+into tbl_board(bno, title, content, writer) values(seq_board.nextval, '테스트 제목7', '테스트 내용7', 'user07')
+select * from dual;
+
+-- 데이터 전체 확인
+select * from tbl_board where bno>0;
+
+-- 데이터 전체 개수 확인
+select count(*) from tbl_board;
+
+-- 커밋
+commit;

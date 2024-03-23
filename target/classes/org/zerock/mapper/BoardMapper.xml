@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="org.zerock.mapper.BoardMapper">
+
+<!-- id는 함수명과 같아야 한다 -->
+
+  <!-- 전체 게시글 리스트 가져오기 -->
+  <select id="getList" resultType="org.zerock.domain.BoardVO">
+  <!-- CDATA 구문을 사용하는 이유 : html이나 xml 등에서 부등호(< , >)를 태그로 인식하지 않게 하기 위해서 -->
+  <![CDATA[
+  		select * from tbl_board where bno > 0 order by bno desc
+  ]]>
+  </select>
+  
+  <sql id='criteria'>
+  	<trim prefix="(" suffix=") and" prefixOverrides="or">
+		<foreach item='type' collection='typeArr'>
+			<trim prefix="or">
+				<choose>
+					<when test="type == 'T'.toString()">
+						title like '%'||#{keyword}||'%'
+					</when>
+					<when test="type == 'C'.toString()">
+						content like '%'||#{keyword}||'%'
+					</when>
+					<when test="type == 'W'.toString()">
+						writer like '%'||#{keyword}||'%'
+					</when>
+				</choose>
+			</trim>
+		</foreach>
+	</trim>
+  </sql>
+  <!-- 페이징 게시글 리스트 가져오기 -->
+  <!-- 세미콜론 주의(에러 발생) -->
+  <select id="getListWithPaging" resultType="org.zerock.domain.BoardVO">
+  	<![CDATA[
+  		select 
+    		bno, title, content, writer, regdate, updatedate
+		from (
+		    select /*+ INDEX_DESC(tbl_board pk_board) */
+		        rownum rn, bno, title, content, writer, regdate, updatedate
+		    from tbl_board
+		    where 
+	]]>
+		<include refid="criteria"></include>
+	<![CDATA[
+		    rownum <= #{pageNum} * #{amount}
+		)
+		where rn > (#{pageNum}-1) * #{amount}
+ 	 ]]>
+  </select>
+  <select id="getTotalCount" resultType="int">
+  	<![CDATA[
+		select count(*) from tbl_board where 
+  	]]>
+  		<include refid="criteria"></include>
+  	<![CDATA[
+  		bno > 0
+  	]]>
+  </select>
+  
+  <!-- 게시글 작성 -->
+  <insert id="insert">
+  	insert into tbl_board(bno, title, content, writer)
+  	values(seq_board.nextval, #{title}, #{content}, #{writer})
+  </insert>
+  
+  <!-- 번호를 확인하고 데이터 추가 -->
+  <insert id="insertSelectKey">
+  	<!-- 
+  		mybatis에서 selectKey
+  		insert문을 수행하기 전에 키값을 먼저(BEFORE) SQL로 처리하고
+  		특정한 이름(bno)으로 결과를 보관한다.
+  		
+  		keyProperty의 값은 BoardVO 필드의 이름과 같아야 한다.
+  		그렇지 않으면 BoardVO의 해당 필드에 null값이 들어가서
+  		selectKey가 수행되지 않으므로 insert가 이루어지지 않는다.
+  		
+  		[실제로 출력된 에러메시지](keyProperty를 bno 말고 bno_로 지정했을 때)
+  		Caused by: org.apache.ibatis.executor.ExecutorException: No setter found for the keyProperty 'bno_' in org.zerock.domain.BoardVO.
+	
+   -->
+  	<selectKey keyProperty="bno" order="BEFORE" resultType="Long">
+  		select seq_board.nextval from dual
+  	</selectKey>
+  	
+  	insert into tbl_board(bno, title, content, writer)
+  	values(#{bno}, #{title}, #{content}, #{writer})
+  </insert>
+  
+  <!-- 게시글 읽기(상세조회) -->
+  <select id="read" resultType="org.zerock.domain.BoardVO">
+  	select bno, title, content, writer, regdate, updateDate from tbl_board where bno = #{bno}
+  </select>
+  
+  <!-- 게시글 삭제 -->
+  <delete id="delete">
+  	delete from tbl_board where bno = #{bno}
+  </delete>
+  
+  <update id="update">
+  	update tbl_board
+  	set title=#{title},
+  	content = #{content},
+  	<!-- 작성자는 잘 수정하지 않는다. -->
+  	writer = #{writer},
+  	updateDate = sysdate
+  	where bno = #{bno}
+  </update>
+</mapper>
