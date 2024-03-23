@@ -24,6 +24,17 @@ public class ReplyMapperTests {
   private ReplyMapper mapper;
   
   @Test
+  public void testUpdate() {
+	  //update는 read가 선행되어야 한다.
+	  Long targetRno = 2L;
+	  ReplyVO vo = mapper.read(targetRno);
+	  vo.setReply("Update Reply .... ");
+	  
+	  int count = mapper.update(vo);
+	  log.info("UPDATE COUNT: "+count);
+  }
+  
+  @Test
   public void testDelete() {
 	  Long targetRno = 5L;
 	  
