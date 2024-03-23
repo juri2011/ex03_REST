@@ -17,11 +17,18 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 public class ReplyMapperTests {
   
+	//실제로 있는 게시글번호인지 확인할것
 	private Long[] bnoArr = {1029L, 1028L, 1027L, 1025L, 1024L};
 	
   @Autowired
   private ReplyMapper mapper;
   
+  @Test
+  public void testRead() {
+	  Long targetRno = 5L;
+	  ReplyVO vo = mapper.read(targetRno);
+	  log.info(vo);
+  }
   @Test
   public void testCreate() {
 	  IntStream.rangeClosed(1,10).forEach(i->{
