@@ -1,5 +1,5 @@
 package org.zerock.mapper;
 
-public class ReplyMapper {
+public interface ReplyMapper {
 
 }
