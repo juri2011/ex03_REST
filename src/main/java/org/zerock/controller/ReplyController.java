@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,8 +25,10 @@ import lombok.extern.log4j.Log4j;
 @AllArgsConstructor
 public class ReplyController {
 	
+	//생성자를 통해 주입
 	private ReplyService service;
 	
+	//댓글 등록하기
 	@PostMapping(value="/new",
 			consumes = "application/json",
 			produces = {MediaType.TEXT_PLAIN_VALUE})
@@ -42,6 +45,7 @@ public class ReplyController {
 		//삼항연산자
 	}
 	
+	//댓글 리스트 가져오기
 	@GetMapping(value="/pages/{bno}/{page}",
 			produces= {
 					MediaType.APPLICATION_XML_VALUE,
@@ -54,5 +58,25 @@ public class ReplyController {
 		log.info(cri);
 		
 		return new ResponseEntity<>(service.getList(cri, bno),HttpStatus.OK);
+	}
+	
+	//댓글 읽기
+	@GetMapping(value="/{rno}",
+			produces= {
+					MediaType.APPLICATION_XML_VALUE,
+					MediaType.APPLICATION_JSON_VALUE})
+	public ResponseEntity<ReplyVO> get(@PathVariable("rno") Long rno){
+		log.info("get: " + rno);
+		
+		return new ResponseEntity<>(service.get(rno),HttpStatus.OK);
+	}
+	//댓글 삭제하기 (Delete 메소드 사용)
+	@DeleteMapping(value="/{rno}", produces={MediaType.TEXT_PLAIN_VALUE})
+	public ResponseEntity<String> remove(@PathVariable("rno") Long rno){
+		log.info("remove: " + rno);
+		
+		return service.remove(rno)==1
+				? new ResponseEntity<>("success", HttpStatus.OK)
+				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 }
