@@ -42,5 +42,20 @@ select * from tbl_board where bno>0;
 -- 데이터 전체 개수 확인
 select count(*) from tbl_board;
 
+create table tbl_reply(
+    rno number(10,0),
+    bno number(10,0) not null,
+    reply varchar2(1000) not null,
+    replyer varchar2(50) not null,
+    replyDate date default sysdate,
+    updateDate date default sysdate
+);
+create sequence seq_reply;
+
+alter table tbl_reply add constraint pk_reply primary key(rno);
+alter table tbl_reply add constraint fk_reply_board foreign key(bno)
+references tbl_board(bno);
+
+desc tbl_reply;
 -- 커밋
 commit;
