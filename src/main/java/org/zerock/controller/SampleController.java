@@ -30,6 +30,7 @@ public class SampleController {
 				produces= {MediaType.APPLICATION_JSON_VALUE,
 						   MediaType.APPLICATION_XML_VALUE })
 	public SampleVO getSample() {
+		
 		return new SampleVO(112, "스타","로드");
 	}
 }

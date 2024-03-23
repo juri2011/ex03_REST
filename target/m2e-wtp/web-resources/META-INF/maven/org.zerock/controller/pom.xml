@@ -178,12 +178,13 @@
 		    <version>2.17.0</version>
 		</dependency>
 		<!-- 객체를 XML로 변환 -->
-		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-xml -->
 		<dependency>
-		    <groupId>com.fasterxml.jackson.core</groupId>
-		    <artifactId>jackson-databind</artifactId>
+		    <groupId>com.fasterxml.jackson.dataformat</groupId>
+		    <artifactId>jackson-dataformat-xml</artifactId>
 		    <version>2.17.0</version>
 		</dependency>
+
 		<!-- 테스트할 때 Java 객체를 JSON 타입 문자열로 변환 -->
 		<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
 		<dependency>
