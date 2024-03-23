@@ -24,6 +24,13 @@ public class ReplyMapperTests {
   private ReplyMapper mapper;
   
   @Test
+  public void testDelete() {
+	  Long targetRno = 5L;
+	  
+	  mapper.delete(targetRno);
+  }
+  
+  @Test
   public void testRead() {
 	  Long targetRno = 5L;
 	  ReplyVO vo = mapper.read(targetRno);
