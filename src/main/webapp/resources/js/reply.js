@@ -41,7 +41,8 @@ var replyService = (function(){
 		$.getJSON("/replies/pages/" + bno + "/" + page + ".json", //파라미터 1: url
 			function(data){ // 파라미터2: 성공
 				if(callback){//callback 함수가 있으면
-					callback(data);
+					//callback(data); 댓글 목록만 가져옴
+					callback(data.replyCnt, data.list);//댓글 숫자와 목록을 가져옴
 				}
 			}).fail(function(xhr, status, err){ //파라미터3 : 실패
 				if(error){ // error함수가 있으면

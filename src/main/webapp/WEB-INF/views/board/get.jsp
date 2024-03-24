@@ -83,7 +83,11 @@
                         </ul>
                         <!-- ./ end ul -->
                     </div>
-                    <!-- /.panel-body -->
+                    <!-- /.panel-body .chat-pannel 추가 -->
+                    <div class="panel-footer">
+                    
+                    </div>
+                    <!-- ./ end panel-footer -->
                 </div>
                 <!-- /.panel .chat-panel -->
 		</div>
@@ -135,8 +139,57 @@
 		
 		showList(1);
 		
+		let pageNum = 1;
+		const replyPageFooter = $(".panel-footer");
+		function showReplyPage(replyCnt){
+			let endNum = Math.ceil(pageNum/10.0) * 10; // 한 블록 끝페이지
+			const startNum = endNum - 9;// 한 블록 시작 페이지
+			
+			const prev = startNum != 1; //startNum이 1이면 prev없음, 그 외 존재
+			let next = false;
+			
+			if(endNum * 10 >= replyCnt){//한 블록 끝페이지 마지막 게시물 번호가 실제 게시물 번호보다 크다면
+				endNum = Math.ceil(replyCnt/10.0);//실제 마지막 게시물 번호로 맞춘다.
+			}
+			
+			if(endNum * 10 < replyCnt){//마지막 블록이 아니라면 next 존재
+				next = true;
+			}
+			
+			let str = "<ul class='pagination pull-right'>";
+			if(prev){//이전 블록이 있다면
+				str += "<li class='page-item'><a class='page-link' href='"+(startNum -1)+"'>Previous</a></li>"
+			}
+			
+			for(let i=startNum; i<=endNum; i++){
+				var active = pageNum == i? "active":"";
+				
+				//현재 페이지면 active 해제, 나머지 active
+				str+="<li class='page-item"+active+"'><a class='page-link' href='"+i+"'>"+i+"</a></li>";
+			}
+			if(next){//이전 블록이 있다면
+				str += "<li class='page-item'><a class='page-link' href='"+(endNum+1)+"'>Next</a></li>"
+			}
+			
+			str+="</ul></div>"
+			
+			console.log(str);
+			
+			replyPageFooter.html(str);
+			
+		}
+		
 		function showList(page){
-			replyService.getList({bno:bnoValue, page: page||1}, function(list){
+			replyService.getList({bno:bnoValue, page: page||1}, function(replyCnt, list){
+				console.log("replyCnt: "+replyCnt);
+				console.log("list: "+list);
+				
+				//페이지 번호가 -1이면 마지막페이지를 호출
+				if(page == -1){
+					pageNum = Math.ceil(replyCnt/10.0);
+					showList(pageNum);
+					return;
+				}
 				var str = "";
 				//댓글이 없으면 댓글창 비우기
 				if(list == null || list.length == 0){
@@ -154,6 +207,7 @@
 				}
 				
 				replyUL.html(str);
+				showReplyPage(replyCnt);
 			});//end function
 		}//end showList
 		
@@ -185,7 +239,7 @@
 				modal.find("input").val("");//도배 안 되도록 입력 초기화
 				modal.modal("hide"); //모달창 닫기
 				
-				showList(1);// 목록 갱신
+				showList(-1);// 목록 갱신
 			});
 		});
 		//chat으로 이벤트를 걸고 실제 이벤트 대상은 li (두번째 파라미터로 자식 요소를 보낼 수 있다)
