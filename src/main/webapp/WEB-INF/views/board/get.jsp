@@ -45,75 +45,7 @@
 						<button type="button" class="btn btn-info listBtn"><a href="/board/modify?bno=<c:out value='${bno}'/>">List</a></button>
 						<button type="button" class="btn btn-info modBtn">
 							<a href="/board/modify?bno=<c:out value='${board.bno}'/>">Modify</a></button>
-						<script src="/resources/js/reply.js"></script>
-						<script>
 						
-							console.log("===================");
-							console.log("JS TEST");
-							
-							//게시물 번호 그대로 들어온다.
-							var bnoValue = '<c:out value="${board.bno}"/>'
-							
-							//for replyService add test
-							/* 
-							replyService.add(
-								//첫번째 파라미터에 들어갈 reply 객체
-								{reply:"JS Test", replyer:"tester", bno:bnoValue},
-								//두번째 파라미터에 들어갈 콜백 함수(Ajax 전송 결과 처리)
-								function (result){
-									alert("RESULT: "+result);
-								}
-							);
-							 */
-							/*  
-							replyService.getList({bno: bnoValue, page:1}, function(list){
-								//ajax로 받아온 list에 값이 없으면 길이 0으로 할당
-								for(let i=0, len = list.length||0; i<len; i++){
-									console.log(list[i]);
-								}
-							});
-							*/
-							//23번째 댓글 삭제
-							/* 
-							replyService.remove(23, function(count){
-								console.log(count);
-								if(count === "success"){
-									alert("REMOVED");
-								}
-							}, function(err){
-								alert('ERROR...');
-							});
-							 */
-							/*  
-							replyService.update({
-								rno: 24,
-								bno: bnoValue,
-								reply: "수정된 댓글 ㅎㅎ"
-							}, function(result){
-								alert("수정 완료...");
-							});
-							 
-							 
-							$(document).ready(function(){
-								console.log(replyService);
-							});
-							 */
-							replyService.get(24,function(data){
-								console.log(data);
-							});
-							 
-							var actionForm = $('#actionForm');
-							$('.listBtn').on('click',function(e){
-								e.preventDefault();
-								actionForm.attr("action","/board/list");
-								actionForm.submit();
-							});
-							$('.modBtn').on('click',function(e){
-								e.preventDefault();
-								actionForm.attr("action","/board/modify");
-								actionForm.submit();
-							});
-						</script>
 				</div>
 				<!-- /.panel-body -->
 			</div>
@@ -125,7 +57,7 @@
 	<div class="row">
 		<div class="col-lg-12">
 			<!-- /.panel -->
-                <div class="chat-panel panel panel-default">
+                <div class="panel panel-default">
                     <div class="panel-heading">
                         <i class="fa fa-comments fa-fw"></i> Reply
                     </div>
@@ -156,3 +88,92 @@
 	<!-- ./end row -->
 </div>
 <%@include file="../includes/footer.jsp"%>
+<script src="/resources/js/reply.js"></script>
+<script>
+
+	$(document).ready(function(){
+		var bnoValue = '<c:out value="${board.bno}"/>'
+		var replyUL = $('.chat');
+		
+		showList(1);
+		
+		function showList(page){
+			replyService.getList({bno:bnoValue, page: page||1}, function(list){
+				var str = "";
+				//댓글이 없으면 댓글창 비우기
+				if(list == null || list.length == 0){
+					replyUL.html("");
+					
+					return;
+				}
+				for(let i=0, len=list.length || 0; i<len; i++){
+					str += "<li class='left clearfix' data-rno='"+list[i].rno+"'>";
+                    str += "	<div class='header'><strong class='primary-font'>"+list[i].replyer+"</strong>";
+                    str += "		<small class='pull-right text-muted'>";
+                    str += "		<i class='fa fa-clock-o fa-fw'></i>" + list[i].replyDate+"</small></div>";
+                    str +="			<p>"+list[i].reply+"</p></li>";
+				}
+				
+				replyUL.html(str);
+			});//end function
+		}//end showList
+	});
+	
+	//게시물 번호 그대로 들어온다.
+	
+	//for replyService add test
+	/* 
+	replyService.add(
+		//첫번째 파라미터에 들어갈 reply 객체
+		{reply:"JS Test", replyer:"tester", bno:bnoValue},
+		//두번째 파라미터에 들어갈 콜백 함수(Ajax 전송 결과 처리)
+		function (result){
+			alert("RESULT: "+result);
+		}
+	);
+	 */
+	/*  
+	replyService.getList({bno: bnoValue, page:1}, function(list){
+		//ajax로 받아온 list에 값이 없으면 길이 0으로 할당
+		for(let i=0, len = list.length||0; i<len; i++){
+			console.log(list[i]);
+		}
+	});
+	*/
+	//23번째 댓글 삭제
+	/* 
+	replyService.remove(23, function(count){
+		console.log(count);
+		if(count === "success"){
+			alert("REMOVED");
+		}
+	}, function(err){
+		alert('ERROR...');
+	});
+	 */
+	/*  
+	replyService.update({
+		rno: 24,
+		bno: bnoValue,
+		reply: "수정된 댓글 ㅎㅎ"
+	}, function(result){
+		alert("수정 완료...");
+	});
+	 
+	replyService.get(24,function(data){
+		console.log(data);
+	});
+	 
+	*/ 
+	var actionForm = $('#actionForm');
+	$('.listBtn').on('click',function(e){
+		e.preventDefault();
+		actionForm.attr("action","/board/list");
+		actionForm.submit();
+	});
+	$('.modBtn').on('click',function(e){
+		e.preventDefault();
+		actionForm.attr("action","/board/modify");
+		actionForm.submit();
+	});
+</script>
