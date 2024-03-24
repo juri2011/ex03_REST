@@ -27,5 +27,6 @@ public interface BoardService {
   
   //게시글 수 찾기
   public int getTotal(Criteria cri);
+
   
 }
