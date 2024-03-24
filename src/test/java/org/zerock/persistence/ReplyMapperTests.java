@@ -26,6 +26,11 @@ public class ReplyMapperTests {
   private ReplyMapper mapper;
   
   @Test
+  public void testList2() {
+	  Criteria cri = new Criteria(2, 10);
+  }
+  
+  @Test
   public void testList() {
 	  Criteria cri = new Criteria();
 	  // 1029L

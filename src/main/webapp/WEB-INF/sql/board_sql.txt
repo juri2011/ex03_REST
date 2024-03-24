@@ -57,5 +57,32 @@ alter table tbl_reply add constraint fk_reply_board foreign key(bno)
 references tbl_board(bno);
 
 desc tbl_reply;
+
+select * from tbl_board where rownum < 10 order by bno desc;
+
+select * from tbl_reply order by rno desc;
+
+select * from myfile;
+insert into tbl_reply (rno, bno, reply, replyer)
+values (seq_reply.nextval, 1024, '어서오세요. 환영합니다^^', 'user00');
+
+insert into tbl_reply (rno, bno, reply, replyer, replyDate)
+values (seq_reply.nextval, 1024, '첫번째 댓글이지만 사실 아닌 댓글', 'user01', to_date('03-22-2024 11:11:11','MM-DD-YYYY HH24:MI:SS'));
+
+-- 인덱스 생성(가장 낮은 rno을 가진 데이터가 1번)
+create index idx_reply on tbl_reply(bno desc, rno asc);
+
+select rno, bno, reply, replyer, replyDate, updateDate
+from(
+    select /*+INDEX(tbl_reply idx_reply)*/
+    rownum rn, bno, rno, reply, replyer, replyDate, updateDate
+    from tbl_reply
+    where bno = 1024
+        and rno > 0
+        and rownum <= 20
+) where rn > 10;
+
+select * from tbl_reply where bno = 1024;
+
 -- 커밋
 commit;
