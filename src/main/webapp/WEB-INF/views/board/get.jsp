@@ -55,6 +55,7 @@
 							var bnoValue = '<c:out value="${board.bno}"/>'
 							
 							//for replyService add test
+							/* 
 							replyService.add(
 								//첫번째 파라미터에 들어갈 reply 객체
 								{reply:"JS Test", replyer:"tester", bno:bnoValue},
@@ -63,10 +64,20 @@
 									alert("RESULT: "+result);
 								}
 							);
-							
+							 */
+							 
+							 replyService.getList({bno: bnoValue, page:1}, function(list){
+								 //ajax로 받아온 list에 값이 없으면 길이 0으로 할당
+								 for(let i=0, len = list.length||0; i<len; i++){
+									 console.log(list[i]);
+								 }
+							 });
+							 
 							$(document).ready(function(){
 								console.log(replyService);
 							});
+							
+							
 							var actionForm = $('#actionForm');
 							$('.listBtn').on('click',function(e){
 								e.preventDefault();
