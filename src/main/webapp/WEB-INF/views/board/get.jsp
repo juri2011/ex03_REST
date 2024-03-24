@@ -122,5 +122,37 @@
 		<!-- /.col-lg-6 -->
 	</div>
 	<!-- /.row -->
+	<div class="row">
+		<div class="col-lg-12">
+			<!-- /.panel -->
+                <div class="chat-panel panel panel-default">
+                    <div class="panel-heading">
+                        <i class="fa fa-comments fa-fw"></i> Reply
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <ul class="chat">
+                        	<!-- start reply -->
+                            <li class="left clearfix" data-rno='12'>
+                                 <div class="header">
+                                     <strong class="primary-font">user00</strong>
+                                     <small class="pull-right text-muted">
+                                         <i class="fa fa-clock-o fa-fw"></i> 2024-01-01 13:13
+                                     </small>
+                                 </div>
+                                 <p>
+                                     Good Job!
+                                 </p>
+                            </li>
+                            <!-- end reply -->
+                        </ul>
+                        <!-- ./ end ul -->
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel .chat-panel -->
+		</div>
+	</div>
+	<!-- ./end row -->
 </div>
 <%@include file="../includes/footer.jsp"%>
