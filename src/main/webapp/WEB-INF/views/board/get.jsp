@@ -165,7 +165,7 @@
 				var active = pageNum == i? "active":"";
 				
 				//현재 페이지면 active 해제, 나머지 active
-				str+="<li class='page-item"+active+"'><a class='page-link' href='"+i+"'>"+i+"</a></li>";
+				str+="<li class='page-item "+active+"'><a class='page-link' href='"+i+"'>"+i+"</a></li>";
 			}
 			if(next){//이전 블록이 있다면
 				str += "<li class='page-item'><a class='page-link' href='"+(endNum+1)+"'>Next</a></li>"
@@ -178,6 +178,14 @@
 			replyPageFooter.html(str);
 			
 		}
+		replyPageFooter.on("click","li a", function(e){
+			e.preventDefault();
+			console.log("page click");
+			var targetPageNum = $(this).attr("href");
+			console.log("targetPageNum: " + targetPageNum);
+			pageNum = targetPageNum;
+			showList(pageNum);
+		})
 		
 		function showList(page){
 			replyService.getList({bno:bnoValue, page: page||1}, function(replyCnt, list){
@@ -267,7 +275,7 @@
 			replyService.update(reply,function(result){
 				alert(result);
 				modal.modal("hide");
-				showList(1);
+				showList(pageNum);
 			});
 		});
 		modalRemoveBtn.on("click",function(e){
@@ -275,7 +283,7 @@
 			replyService.remove(rno, function(result){
 				alert(result);
 				modal.modal("hide");
-				showList(1);
+				showList(pageNum);
 			});
 		});
 	});
