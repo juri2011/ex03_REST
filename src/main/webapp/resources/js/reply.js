@@ -92,12 +92,40 @@ var replyService = (function(){
 		});
 	}
 	
+	function displayTime(timeValue){
+		const today = new Date();
+		const gap = today.getTime() - timeValue;
+		
+		const dateObj = new Date(timeValue);
+		let str = "";
+		
+		// 밀리초, 초, 분, 시(하루)
+		if(gap < (1000 * 60 * 60 * 24)){ // 작성된 지 하루도 안 지났다면- 시:분:초 표시
+			const hh = dateObj.getHours();
+			const mi = dateObj.getMinutes();
+			const ss = dateObj.getSeconds();
+			
+			//각 시, 분, 초가 한자리면 앞에 0을 붙여 출력한다.
+			return [(hh > 9 ? '' : '0') + hh, ':', (mi > 9 ? '' : '0') + mi, ':',
+				(ss > 9 ? '' : '0') + ss ].join('');
+		}else{ //작성된 지 1일 이상이 되었다면- 연/월/일 표시
+			const yy = dateObj.getFullYear();
+			const mm = dateObj.getMonth() + 1; // getMonth()는 0부터 시작한다
+			const dd = dateObj.getDate();
+			
+			//각 연, 월, 일이 한자리면 앞에 0을 붙여 출력한다.
+			return [yy, '/', (mm > 9 ? '' : '0') + mm, '/',
+				(dd > 9 ? '' : '0') + dd ].join('');
+		}
+	}
+	
 	//key: add, value: add메소드
 	return {
 		add:add,
 		getList: getList,
 		remove: remove,
 		update: update,
-		get: get
+		get: get,
+		displayTime: displayTime
 	};
 })();

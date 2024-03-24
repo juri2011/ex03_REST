@@ -110,7 +110,8 @@
 					str += "<li class='left clearfix' data-rno='"+list[i].rno+"'>";
                     str += "	<div class='header'><strong class='primary-font'>"+list[i].replyer+"</strong>";
                     str += "		<small class='pull-right text-muted'>";
-                    str += "		<i class='fa fa-clock-o fa-fw'></i>" + list[i].replyDate+"</small></div>";
+                    str += "		<i class='fa fa-clock-o fa-fw'></i>" +
+                    		replyService.displayTime(list[i].replyDate) + "</small></div>";
                     str +="			<p>"+list[i].reply+"</p></li>";
 				}
 				
