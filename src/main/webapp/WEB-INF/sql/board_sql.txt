@@ -66,6 +66,9 @@ select * from myfile;
 insert into tbl_reply (rno, bno, reply, replyer)
 values (seq_reply.nextval, 1024, '어서오세요. 환영합니다^^', 'user00');
 
+insert into tbl_reply (rno, bno, reply, replyer)
+select seq_reply.nextval, bno, reply, replyer from tbl_reply where bno = 1024;
+
 insert into tbl_reply (rno, bno, reply, replyer, replyDate)
 values (seq_reply.nextval, 1024, '첫번째 댓글이지만 사실 아닌 댓글', 'user01', to_date('03-22-2024 11:11:11','MM-DD-YYYY HH24:MI:SS'));
 
@@ -83,6 +86,8 @@ from(
 ) where rn > 10;
 
 select * from tbl_reply where bno = 1024;
+
+select count(*) from tbl_reply where bno = 1024;
 
 -- 커밋
 commit;
