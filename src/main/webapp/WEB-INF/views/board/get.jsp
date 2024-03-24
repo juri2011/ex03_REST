@@ -65,14 +65,24 @@
 								}
 							);
 							 */
-							 
-							 replyService.getList({bno: bnoValue, page:1}, function(list){
-								 //ajax로 받아온 list에 값이 없으면 길이 0으로 할당
-								 for(let i=0, len = list.length||0; i<len; i++){
-									 console.log(list[i]);
-								 }
-							 });
-							 
+							/*  
+							replyService.getList({bno: bnoValue, page:1}, function(list){
+								//ajax로 받아온 list에 값이 없으면 길이 0으로 할당
+								for(let i=0, len = list.length||0; i<len; i++){
+									console.log(list[i]);
+								}
+							});
+							*/
+							//23번째 댓글 삭제
+							replyService.remove(23, function(count){
+								console.log(count);
+								if(count === "success"){
+									alert("REMOVED");
+								}
+							}, function(err){
+								alert('ERROR...');
+							});
+							
 							$(document).ready(function(){
 								console.log(replyService);
 							});
