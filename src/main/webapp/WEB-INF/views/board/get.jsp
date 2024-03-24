@@ -182,11 +182,30 @@
 			replyService.add(reply, function(result){
 				alert(result);
 				
-				modal.find("input").val("");
-				modal.modal("hide");
+				modal.find("input").val("");//도배 안 되도록 입력 초기화
+				modal.modal("hide"); //모달창 닫기
 				
 				showList(1);// 목록 갱신
 			});
+		});
+		//chat으로 이벤트를 걸고 실제 이벤트 대상은 li (두번째 파라미터로 자식 요소를 보낼 수 있다)
+		$(".chat").on("click", "li", function(e){
+			//data-rno의 값을 읽어온다
+			var rno = $(this).data("rno");
+			replyService.get(rno, function(reply){
+				modalInputReply.val(reply.reply);
+				modalInputReplyer.val(reply.replyer);
+				modalInputReplyDate.val(replyService.displayTime(reply.replyDate))
+				.attr("readonly", "readonly");
+				modal.data("rno", reply.rno);
+				
+				modal.find("button[id != 'modalCloseBtn']").hide();
+				modalModBtn.show();
+				modalRemoveBtn.show();
+				
+				$(".modal").modal("show");
+			})
+			console.log(rno);
 		});
 	});
 	
