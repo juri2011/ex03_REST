@@ -10,7 +10,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-
     <title>Board Table</title>
     
     <!-- 부트스트랩 폴더를 resources에 저장했기 때문에 경로변경이 필수다 -->

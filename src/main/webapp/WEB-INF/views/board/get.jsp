@@ -47,6 +47,23 @@
 							<a href="/board/modify?bno=<c:out value='${board.bno}'/>">Modify</a></button>
 						<script src="/resources/js/reply.js"></script>
 						<script>
+						
+							console.log("===================");
+							console.log("JS TEST");
+							
+							//게시물 번호 그대로 들어온다.
+							var bnoValue = '<c:out value="${board.bno}"/>'
+							
+							//for replyService add test
+							replyService.add(
+								//첫번째 파라미터에 들어갈 reply 객체
+								{reply:"JS Test", replyer:"tester", bno:bnoValue},
+								//두번째 파라미터에 들어갈 콜백 함수(Ajax 전송 결과 처리)
+								function (result){
+									alert("RESULT: "+result);
+								}
+							);
+							
 							$(document).ready(function(){
 								console.log(replyService);
 							});
