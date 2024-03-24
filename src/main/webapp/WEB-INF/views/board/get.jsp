@@ -74,6 +74,7 @@
 							});
 							*/
 							//23번째 댓글 삭제
+							/* 
 							replyService.remove(23, function(count){
 								console.log(count);
 								if(count === "success"){
@@ -82,7 +83,17 @@
 							}, function(err){
 								alert('ERROR...');
 							});
-							
+							 */
+							 
+							replyService.update({
+								rno: 24,
+								bno: bnoValue,
+								reply: "수정된 댓글 ㅎㅎ"
+							}, function(result){
+								alert("수정 완료...");
+							});
+							 
+							 
 							$(document).ready(function(){
 								console.log(replyService);
 							});
