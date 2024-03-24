@@ -83,11 +83,21 @@ var replyService = (function(){
 		});
 	}
 	
+	function get(rno, callback, error){
+		//get메소드
+		$.get("/replies/"+rno+".json", function(result){
+			if(callback) callback(result);
+		}).fail(function(xhr, status, err){
+			if(error) error();
+		});
+	}
+	
 	//key: add, value: add메소드
 	return {
 		add:add,
 		getList: getList,
 		remove: remove,
-		update: update
+		update: update,
+		get: get
 	};
 })();

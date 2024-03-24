@@ -84,7 +84,7 @@
 								alert('ERROR...');
 							});
 							 */
-							 
+							/*  
 							replyService.update({
 								rno: 24,
 								bno: bnoValue,
@@ -97,8 +97,11 @@
 							$(document).ready(function(){
 								console.log(replyService);
 							});
-							
-							
+							 */
+							replyService.get(24,function(data){
+								console.log(data);
+							});
+							 
 							var actionForm = $('#actionForm');
 							$('.listBtn').on('click',function(e){
 								e.preventDefault();
