@@ -45,6 +45,7 @@
 						<button type="button" class="btn btn-info listBtn"><a href="/board/modify?bno=<c:out value='${bno}'/>">List</a></button>
 						<button type="button" class="btn btn-info modBtn">
 							<a href="/board/modify?bno=<c:out value='${board.bno}'/>">Modify</a></button>
+						<script src="/resources/js/reply.js"></script>
 						<script>
 							var actionForm = $('#actionForm');
 							$('.listBtn').on('click',function(e){

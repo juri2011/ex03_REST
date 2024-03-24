@@ -71,6 +71,7 @@ public class ReplyController {
 		
 		return new ResponseEntity<>(service.get(rno),HttpStatus.OK);
 	}
+	
 	//댓글 삭제하기 (Delete 메소드 사용)
 	@DeleteMapping(value="/{rno}", produces={MediaType.TEXT_PLAIN_VALUE})
 	public ResponseEntity<String> remove(@PathVariable("rno") Long rno){
