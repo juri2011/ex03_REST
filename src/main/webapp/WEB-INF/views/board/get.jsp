@@ -116,7 +116,7 @@
             	<!-- 각 작업에 따라 버튼이나 입력창이 보이거나 사라진다 -->
                 <button id="modalModBtn" type="button" class="btn btn-warning">Modify</button>
                 <button id="modalRemoveBtn" type="button" class="btn btn-danger">Remove</button>
-                <button id="modalRegisterBtn" type="button" class="btn btn-primary" data-dismiss="modal">Register</button>
+                <button id="modalRegisterBtn" type="button" class="btn btn-primary">Register</button>
                 <button id="modalCloseBtn" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div>
@@ -191,10 +191,11 @@
 		//chat으로 이벤트를 걸고 실제 이벤트 대상은 li (두번째 파라미터로 자식 요소를 보낼 수 있다)
 		$(".chat").on("click", "li", function(e){
 			//data-rno의 값을 읽어온다
-			var rno = $(this).data("rno");
+			const rno = $(this).data("rno");
+			
 			replyService.get(rno, function(reply){
 				modalInputReply.val(reply.reply);
-				modalInputReplyer.val(reply.replyer);
+				modalInputReplyer.val(reply.replyer).attr("readonly", "readonly");
 				modalInputReplyDate.val(replyService.displayTime(reply.replyDate))
 				.attr("readonly", "readonly");
 				modal.data("rno", reply.rno);
@@ -206,6 +207,22 @@
 				$(".modal").modal("show");
 			})
 			console.log(rno);
+		});
+		modalModBtn.on("click",function(e){
+			const reply = {rno:modal.data("rno"), reply: modalInputReply.val()};
+			replyService.update(reply,function(result){
+				alert(result);
+				modal.modal("hide");
+				showList(1);
+			});
+		});
+		modalRemoveBtn.on("click",function(e){
+			const rno = modal.data("rno");
+			replyService.remove(rno, function(result){
+				alert(result);
+				modal.modal("hide");
+				showList(1);
+			});
 		});
 	});
 	
