@@ -47,6 +47,9 @@
 							<a href="/board/modify?bno=<c:out value='${board.bno}'/>">Modify</a></button>
 						<script src="/resources/js/reply.js"></script>
 						<script>
+							$(document).ready(function(){
+								console.log(replyService);
+							});
 							var actionForm = $('#actionForm');
 							$('.listBtn').on('click',function(e){
 								e.preventDefault();
