@@ -28,6 +28,9 @@ public class ReplyMapperTests {
   @Test
   public void testList2() {
 	  Criteria cri = new Criteria(2, 10);
+	  //1024번
+	  List<ReplyVO> replies = mapper.getListWithPaging(cri, 1024L);
+	  replies.forEach(reply -> log.info(reply));
   }
   
   @Test
